@@ -2,13 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import { BsCaretDownFill } from 'react-icons/bs';
 import { PieChart } from 'react-minimal-pie-chart';
 
-const FoodInfo = ({ selectedFood, amount, setAmount, protein, carbs, fat }) => {
+const FoodInfo = ({
+  selectedFood,
+  amount,
+  setAmount,
+  protein,
+  carbs,
+  fat,
+  kcal,
+}) => {
   const [showPortions, setShowPortions] = useState(false);
 
   const resultsRef = useRef(null);
 
   const handleShowPortionsClick = () => {
-    setShowPortions(!showPortions);
+    setShowPortions((prevShowPortions) => !prevShowPortions);
   };
 
   const handleAmountChange = (event) => {
@@ -32,36 +40,38 @@ const FoodInfo = ({ selectedFood, amount, setAmount, protein, carbs, fat }) => {
     };
   }, []);
 
-  const lineStyle = 'rounded-md bg-slate-800 p-4 mb-4';
-  const macros = ['Protein', 'Carbs', 'Fat'];
+  const lineStyle = 'rounded-md bg-slate-900 p-4 mb-4';
+  const macros = ['Protein', 'Carbs', 'Fat', 'Energy'];
 
   return (
-    <div>
+    <div className='pb-20'>
       {selectedFood.description ? (
         <div>
           <div
-            className={`mb-4 mt-10 rounded-md bg-slate-500 p-4 text-center text-xl font-semibold`}
+            className={`mb-4 mt-10 rounded-md bg-slate-900 p-4 text-center text-2xl font-semibold`}
           >
             {selectedFood.description}
           </div>
-          <div className={`mb-4 flex justify-between rounded-md bg-slate-800`}>
+          <div className={`mb-4 flex justify-between rounded-md bg-slate-900`}>
             <div className='rounded-l-md p-4'>Amount</div>
-            <div className='relative z-0'>
+            <div className='relative z-0 mr-3.5 flex items-center'>
               <input
                 id='amount'
                 type='number'
                 value={amount}
                 onChange={handleAmountChange}
-                className='w-24 appearance-none rounded-r-md border border-solid border-slate-700  bg-slate-900 p-4 pr-8 text-right hover:bg-slate-800 focus:outline-none'
+                className='w-24 appearance-none rounded-md border border-solid border-slate-700  bg-slate-950 p-2 pr-8 text-right hover:bg-slate-800 focus:outline-none'
               />
-              <div className='absolute right-4 top-5 text-slate-600'>g</div>
+              <div className='pointer-events-none absolute right-4 top-4 text-slate-600'>
+                g
+              </div>
             </div>
           </div>
-          <div className={`relative  ${lineStyle}`}>
+          <div className={`relative ${lineStyle}`}>
             <div className='flex justify-between'>
               <div>Serving size</div>
               <button
-                className='cursor-pointer p-1'
+                className='mr-2 mt-1 cursor-pointer'
                 onClick={handleShowPortionsClick}
               >
                 <BsCaretDownFill className='text-slate-500' />
@@ -70,7 +80,7 @@ const FoodInfo = ({ selectedFood, amount, setAmount, protein, carbs, fat }) => {
             {showPortions && selectedFood.foodPortions ? (
               <div
                 ref={resultsRef}
-                className='absolute right-10 z-20 my-3 max-h-72 overflow-y-auto rounded-md bg-slate-700 py-1'
+                className='absolute right-0 top-12 z-20 my-3 max-h-72 overflow-y-auto rounded-md bg-slate-700 py-1'
               >
                 {selectedFood.foodPortions.map((portion) =>
                   portion.portionDescription !== 'Quantity not specified' ? (
@@ -86,12 +96,14 @@ const FoodInfo = ({ selectedFood, amount, setAmount, protein, carbs, fat }) => {
               </div>
             ) : null}
           </div>
-          <div className={`relative h-64 ${lineStyle}`}>
+          <div
+            className={`relative flex items-center justify-center gap-20 ${lineStyle}`}
+          >
             <ul>
               {macros.map((macro) => (
                 <li
                   key={macro}
-                  className={`flex justify-between ${
+                  className={`flex w-48 justify-between ${
                     macro === 'Protein'
                       ? 'text-green-400'
                       : macro === 'Carbs'
@@ -107,18 +119,26 @@ const FoodInfo = ({ selectedFood, amount, setAmount, protein, carbs, fat }) => {
                   ) : macro === 'Carbs' ? (
                     <div>{`${((carbs * amount) / 100).toFixed(2)} g`}</div>
                   ) : macro === 'Fat' ? (
-                    <div>{`${((fat * amount) / 100).toFixed(2)} g`}</div>
+                    <div>
+                      <div>{`${((fat * amount) / 100).toFixed(2)} g`}</div>
+                      <br />
+                    </div>
+                  ) : macro === 'Energy' ? (
+                    <div>{`${((kcal * amount) / 100).toFixed(2)} kcal`}</div>
                   ) : null}
                 </li>
               ))}
             </ul>
             <PieChart
-              className='absolute -left-0 top-5 h-52'
+              className='max-w-xs py-4'
               data={[
                 { title: 'One', value: protein, color: 'rgb(74 222 128)' },
                 { title: 'Two', value: carbs, color: 'rgb(96 165 250)' },
                 { title: 'Three', value: fat, color: 'rgb(248 113 113)' },
               ]}
+              startAngle={-45}
+              lengthAngle={-360}
+              lineWidth={20}
             />
           </div>
         </div>

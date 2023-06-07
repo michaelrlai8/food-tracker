@@ -7,12 +7,17 @@ import { useState } from 'react';
 
 function App() {
   const [selectedFood, setSelectedFood] = useState({});
+  const [searchTerm, setSearchTerm] = useState('');
+  const [amount, setAmount] = useState(100);
+
   const [protein, setProtein] = useState();
   const [carbs, setCarbs] = useState();
   const [fat, setFat] = useState();
 
+  const [kcal, setKcal] = useState();
+
   return (
-    <div className='App h-screen bg-slate-900 '>
+    <div className='App h-screen bg-slate-950 '>
       <NavBar />
 
       <Routes>
@@ -29,6 +34,12 @@ function App() {
               setProtein={setProtein}
               setCarbs={setCarbs}
               setFat={setFat}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              amount={amount}
+              setAmount={setAmount}
+              kcal={kcal}
+              setKcal={setKcal}
             />
           }
         />

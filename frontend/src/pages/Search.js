@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SearchBar from '../components/SearchBar';
 import FoodInfo from '../components/FoodInfo';
 
@@ -11,25 +11,33 @@ const Search = ({
   setProtein,
   setCarbs,
   setFat,
+  searchTerm,
+  setSearchTerm,
+  amount,
+  setAmount,
+  kcal,
+  setKcal,
 }) => {
-  const [amount, setAmount] = useState(100);
-
   return (
     <div className='m-auto max-w-5xl px-5'>
       <SearchBar
+        setSelectedFood={setSelectedFood}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
         setAmount={setAmount}
         setProtein={setProtein}
         setCarbs={setCarbs}
         setFat={setFat}
-        setSelectedFood={setSelectedFood}
+        setKcal={setKcal}
       />
       <FoodInfo
         amount={amount}
+        setAmount={setAmount}
+        selectedFood={selectedFood}
         protein={protein}
         carbs={carbs}
         fat={fat}
-        setAmount={setAmount}
-        selectedFood={selectedFood}
+        kcal={kcal}
       />
     </div>
   );
