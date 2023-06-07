@@ -7,6 +7,9 @@ import { useState } from 'react';
 
 function App() {
   const [selectedFood, setSelectedFood] = useState({});
+  const [protein, setProtein] = useState();
+  const [carbs, setCarbs] = useState();
+  const [fat, setFat] = useState();
 
   return (
     <div className='App h-screen bg-slate-900 '>
@@ -20,6 +23,12 @@ function App() {
             <Search
               selectedFood={selectedFood}
               setSelectedFood={setSelectedFood}
+              protein={protein}
+              carbs={carbs}
+              fat={fat}
+              setProtein={setProtein}
+              setCarbs={setCarbs}
+              setFat={setFat}
             />
           }
         />

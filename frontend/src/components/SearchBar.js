@@ -1,7 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 
-const SearchBar = ({ setSelectedFood }) => {
+const SearchBar = ({
+  setSelectedFood,
+  setAmount,
+  setProtein,
+  setCarbs,
+  setFat,
+}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const resultsRef = useRef(null);
@@ -27,6 +33,7 @@ const SearchBar = ({ setSelectedFood }) => {
     const responseData = response.data;
     const foodData = responseData.foods;
     setResults(foodData);
+    setAmount(100); //
   };
 
   const handleChange = (event) => {
@@ -42,6 +49,15 @@ const SearchBar = ({ setSelectedFood }) => {
     console.log(responseData);
 
     setSelectedFood(responseData);
+    responseData.foodNutrients.map((nutrient) => {
+      if (nutrient.nutrient.name === 'Protein') {
+        setProtein(nutrient.amount);
+      } else if (nutrient.nutrient.name === 'Carbohydrate, by difference') {
+        setCarbs(nutrient.amount);
+      } else if (nutrient.nutrient.name === 'Total lipid (fat)') {
+        setFat(nutrient.amount);
+      }
+    });
   };
 
   return (
@@ -70,7 +86,7 @@ const SearchBar = ({ setSelectedFood }) => {
             <li
               key={index}
               onClick={() => handleItemClick(result)}
-              className='cursor-pointer bg-slate-800 px-2 py-0.5 hover:bg-slate-700'
+              className='cursor-pointer bg-slate-700 px-2 py-0.5 hover:bg-slate-600'
             >
               {result.description}
             </li>
