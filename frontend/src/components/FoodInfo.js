@@ -1,15 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BsCaretDownFill } from 'react-icons/bs';
 import { PieChart } from 'react-minimal-pie-chart';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const FoodInfo = ({
   selectedFood,
   amount,
+  food,
   setAmount,
   protein,
   carbs,
   fat,
   kcal,
+  selectedDate,
 }) => {
   const [showPortions, setShowPortions] = useState(false);
 
@@ -40,11 +44,31 @@ const FoodInfo = ({
     };
   }, []);
 
+  const handleSave = () => {
+    const postMacroData = async () => {
+      const response = await axios({
+        method: 'post',
+        url: 'http://localhost:3500/macros',
+        data: {
+          date: selectedDate,
+          food: food,
+          amount: amount,
+          protein: protein,
+          carbs: carbs,
+          fat: fat,
+          kcal: kcal,
+        },
+      });
+    };
+
+    postMacroData();
+  };
+
   const lineStyle = 'rounded-md bg-slate-900 p-4 mb-4';
   const macros = ['Protein', 'Carbs', 'Fat', 'Energy'];
 
   return (
-    <div className='pb-20'>
+    <div className='pb-4'>
       {selectedFood.description ? (
         <div>
           <div
@@ -52,6 +76,7 @@ const FoodInfo = ({
           >
             {selectedFood.description}
           </div>
+
           <div className={`mb-4 flex justify-between rounded-md bg-slate-900`}>
             <div className='rounded-l-md p-4'>Amount</div>
             <div className='relative z-0 mr-3.5 flex items-center'>
@@ -130,7 +155,7 @@ const FoodInfo = ({
               ))}
             </ul>
             <PieChart
-              className='max-w-xs py-4'
+              className='w-40 py-4'
               data={[
                 { title: 'One', value: protein, color: 'rgb(74 222 128)' },
                 { title: 'Two', value: carbs, color: 'rgb(96 165 250)' },
@@ -141,6 +166,14 @@ const FoodInfo = ({
               lineWidth={20}
             />
           </div>
+          <Link to='/tracker'>
+            <button
+              onClick={handleSave}
+              className={`${lineStyle} w-full bg-cyan-400 text-black hover:bg-cyan-500`}
+            >
+              Add
+            </button>
+          </Link>
         </div>
       ) : null}
     </div>

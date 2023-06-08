@@ -5,6 +5,7 @@ const SearchBar = ({
   setSelectedFood,
   searchTerm,
   setSearchTerm,
+  setFood,
   setAmount,
   setProtein,
   setCarbs,
@@ -51,7 +52,7 @@ const SearchBar = ({
     console.log(responseData);
 
     setSearchTerm(responseData.description);
-
+    setFood(responseData.description);
     setSelectedFood(responseData);
     responseData.foodNutrients.map((nutrient) => {
       if (nutrient.nutrient.name === 'Protein') {
@@ -63,6 +64,7 @@ const SearchBar = ({
       } else if (nutrient.nutrient.name === 'Energy') {
         setKcal(nutrient.amount);
       }
+      return null;
     });
   };
 

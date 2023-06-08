@@ -8,17 +8,19 @@ import { useState } from 'react';
 function App() {
   const [selectedFood, setSelectedFood] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
-  const [amount, setAmount] = useState(100);
 
+  const [food, setFood] = useState();
+  const [amount, setAmount] = useState(100);
   const [protein, setProtein] = useState();
   const [carbs, setCarbs] = useState();
   const [fat, setFat] = useState();
-
   const [kcal, setKcal] = useState();
 
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   return (
-    <div className='App h-screen bg-slate-950 '>
-      <NavBar />
+    <div className='App scrollbar-track-transparent h-screen overflow-y-scroll bg-slate-950'>
+      <NavBar selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
 
       <Routes>
         <Route path='/' element={<Home />} />
@@ -28,9 +30,11 @@ function App() {
             <Search
               selectedFood={selectedFood}
               setSelectedFood={setSelectedFood}
+              food={food}
               protein={protein}
               carbs={carbs}
               fat={fat}
+              setFood={setFood}
               setProtein={setProtein}
               setCarbs={setCarbs}
               setFat={setFat}
@@ -40,6 +44,7 @@ function App() {
               setAmount={setAmount}
               kcal={kcal}
               setKcal={setKcal}
+              selectedDate={selectedDate}
             />
           }
         />

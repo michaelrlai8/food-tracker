@@ -1,12 +1,7 @@
 import React from 'react';
-import DatePicker from '../components/DatePicker';
 
 const Tracker = () => {
-  return (
-    <div>
-      <DatePicker />
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Tracker;
