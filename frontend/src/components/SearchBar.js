@@ -13,6 +13,8 @@ const SearchBar = ({
   setKcal,
 }) => {
   const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const resultsRef = useRef(null);
 
   useEffect(() => {
@@ -28,6 +30,7 @@ const SearchBar = ({
   }, []);
 
   const handleSearch = async (event) => {
+    setLoading(true);
     event.preventDefault();
 
     const response = await axios.get(
@@ -36,6 +39,7 @@ const SearchBar = ({
     const responseData = response.data;
     const foodData = responseData.foods;
     setResults(foodData);
+    setLoading(false);
   };
 
   const handleChange = (event) => {
@@ -85,7 +89,7 @@ const SearchBar = ({
           Search
         </button>
       </form>
-      {results.length > 0 ? (
+      {results && (
         <ul
           ref={resultsRef}
           className='absolute z-10 my-1 max-h-72 overflow-y-auto rounded-md bg-slate-800 py-1 text-base'
@@ -100,7 +104,12 @@ const SearchBar = ({
             </li>
           ))}
         </ul>
-      ) : null}
+      )}
+      {loading && (
+        <div className='absolute z-10 my-1 max-h-72 overflow-y-auto rounded-md bg-slate-800 py-1 text-base'>
+          <div className='px-2 py-0.5'>Searching...</div>
+        </div>
+      )}
     </div>
   );
 };

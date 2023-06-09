@@ -37,7 +37,7 @@ const DatePicker = ({ selectedDate, setSelectedDate }) => {
   const buttonStyle = 'rounded-md text-3xl text-orange-600 hover:bg-slate-800';
 
   return (
-    <div className='flex items-center gap-6'>
+    <div className='flex items-center gap-2'>
       <button onClick={handlePreviousMonth}>
         <MdKeyboardDoubleArrowLeft className='rounded-md text-3xl text-orange-600 hover:bg-slate-800' />
       </button>
@@ -45,7 +45,7 @@ const DatePicker = ({ selectedDate, setSelectedDate }) => {
         <MdKeyboardArrowLeft className={buttonStyle} />
       </button>
       <div
-        className='w-40 cursor-pointer rounded-md py-1 text-center text-base hover:bg-slate-800'
+        className='w-48 cursor-pointer rounded-md py-1 text-center text-base hover:bg-slate-800'
         onClick={handleCurrentDate}
       >
         {selectedDate.toDateString()}

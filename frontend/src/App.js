@@ -3,7 +3,8 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Search from './pages/Search';
 import Tracker from './pages/Tracker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function App() {
   const [selectedFood, setSelectedFood] = useState({});
@@ -17,6 +18,18 @@ function App() {
   const [kcal, setKcal] = useState();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+    const getHistory = async () => {
+      const response = await axios.get('http://localhost:3500/history');
+      console.log(response.data);
+      setHistory(response.data);
+    };
+    getHistory();
+    console.log('first get');
+  }, []);
 
   return (
     <div className='App scrollbar-track-transparent h-screen overflow-y-scroll bg-slate-950'>
@@ -45,10 +58,15 @@ function App() {
               kcal={kcal}
               setKcal={setKcal}
               selectedDate={selectedDate}
+              history={history}
+              setHistory={setHistory}
             />
           }
         />
-        <Route path='/tracker' element={<Tracker />} />
+        <Route
+          path='/tracker'
+          element={<Tracker history={history} setHistory={setHistory} />}
+        />
       </Routes>
     </div>
   );

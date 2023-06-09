@@ -14,6 +14,8 @@ const FoodInfo = ({
   fat,
   kcal,
   selectedDate,
+  history,
+  setHistory,
 }) => {
   const [showPortions, setShowPortions] = useState(false);
 
@@ -45,12 +47,44 @@ const FoodInfo = ({
   }, []);
 
   const handleSave = () => {
+    const addObjectAndSort = () => {
+      const updatedItems = [
+        // Create new array with selected food object
+        ...history,
+        {
+          date: selectedDate.toLocaleString(),
+          food: food,
+          amount: amount,
+          protein: protein,
+          carbs: carbs,
+          fat: fat,
+          kcal: kcal,
+        },
+      ];
+
+      updatedItems.sort((a, b) => {
+        // Alphabetize new array
+        const foodA = a.food.toLowerCase();
+        const foobB = b.food.toLowerCase();
+        if (foodA < foobB) {
+          return -1;
+        }
+        if (foodA > foobB) {
+          return 1;
+        }
+        return 0;
+      });
+      setHistory(updatedItems); // Set state array to new array
+    };
+    addObjectAndSort();
+
     const postMacroData = async () => {
-      const response = await axios({
+      // POST request to insert new row in DB
+      await axios({
         method: 'post',
         url: 'http://localhost:3500/macros',
         data: {
-          date: selectedDate,
+          date: selectedDate.toLocaleString(),
           food: food,
           amount: amount,
           protein: protein,
@@ -59,6 +93,9 @@ const FoodInfo = ({
           kcal: kcal,
         },
       });
+
+      const response = await axios.get('http://localhost:3500/history');
+      setHistory(response.data);
     };
 
     postMacroData();
@@ -68,8 +105,8 @@ const FoodInfo = ({
   const macros = ['Protein', 'Carbs', 'Fat', 'Energy'];
 
   return (
-    <div className='pb-4'>
-      {selectedFood.description ? (
+    <div>
+      {selectedFood.description && (
         <div>
           <div
             className={`mb-4 mt-10 rounded-md bg-slate-900 p-4 text-center text-2xl font-semibold`}
@@ -175,7 +212,7 @@ const FoodInfo = ({
             </button>
           </Link>
         </div>
-      ) : null}
+      )}
     </div>
   );
 };

@@ -30,16 +30,51 @@ app.get('/food', async (req, res) => {
   res.json(response.data);
 });
 
+// Insert food entry into DB
 app.post('/macros', async (req, res) => {
-  const { date, food, amount, protein, carbs, fat, kcal } = req.body;
-  console.log(req.body);
+  await db.query(
+    'INSERT INTO macros (date, food, amount, protein, carbs, fat, kcal) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+    [
+      req.body.date,
+      req.body.food,
+      req.body.amount,
+      req.body.protein,
+      req.body.carbs,
+      req.body.fat,
+      req.body.kcal,
+    ]
+  );
 
-  const query =
-    'INSERT INTO macros (date, food, amount, protein, carbs, fat, kcal) VALUES ($1, $2, $3, $4, $5, $6, $7)';
-  const values = [date, food, amount, protein, carbs, fat, kcal];
-  const response = db.query(query, values);
+  res.status(201);
+});
 
-  res.json(response);
+// Get food history
+app.get('/history', async (req, res) => {
+  const response = await db.query('SELECT * FROM macros');
+
+  const compareObjects = (a, b) => {
+    const nameA = a.food.toUpperCase();
+    const nameB = b.food.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  };
+  const sortedArray = response.rows.sort(compareObjects);
+  console.log(sortedArray);
+  res.json(sortedArray); // Array response of food entries alphabetized
+});
+
+app.patch('/entry', async (req, res) => {
+  console.log(req.body.amount, req.body.id);
+  await db.query('UPDATE macros SET amount = $1 WHERE id = $2', [
+    req.body.amount,
+    req.body.id,
+  ]);
+  res.send('patchsucces');
 });
 
 app.listen(port, () => {

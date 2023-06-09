@@ -8,7 +8,7 @@ const Home = () => {
         Track all your macros
       </h1>
       <div className='mt-12 text-center text-slate-400'>
-        And reach all of your fitness goals faster.
+        And reach your fitness goals faster.
       </div>
       <div className='mt-12 flex justify-center'>
         <Link to='/search'>

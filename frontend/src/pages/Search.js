@@ -20,6 +20,8 @@ const Search = ({
   kcal,
   setKcal,
   selectedDate,
+  history,
+  setHistory,
 }) => {
   return (
     <div className='m-auto max-w-5xl px-5'>
@@ -44,6 +46,8 @@ const Search = ({
         fat={fat}
         kcal={kcal}
         selectedDate={selectedDate}
+        history={history}
+        setHistory={setHistory}
       />
     </div>
   );

@@ -8,15 +8,16 @@ const NavBar = ({ selectedDate, setSelectedDate }) => {
 
   return (
     <div className='m-auto flex max-w-5xl justify-between px-5'>
-      <Link to='/' className='flex items-center text-xl font-bold'>
+      <Link to='/' className='flex w-1/5 items-center text-xl font-bold'>
         <GiFruitBowl className='text-orange-600' />
         <div className='ml-2'>foodtracker</div>
       </Link>
       <DatePicker
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
+        className='w-3/5'
       />
-      <ul className='flex list-none items-center gap-2 py-8'>
+      <ul className='flex w-1/5 list-none items-center justify-end gap-2 py-8'>
         <li>
           <NavLink to='/search' className={navLinkStyle}>
             Search
