@@ -34,7 +34,7 @@ const SearchBar = ({
     event.preventDefault();
 
     const response = await axios.get(
-      `http://localhost:3500/search?q=${searchTerm}`
+      `${process.env.REACT_APP_API_URL}/search?q=${searchTerm}`
     );
     const responseData = response.data;
     const foodData = responseData.foods;
@@ -50,7 +50,7 @@ const SearchBar = ({
     setAmount(100);
     setResults([]);
     const response = await axios.get(
-      `http://localhost:3500/food?q=${result.fdcId}`
+      `${process.env.REACT_APP_API_URL}/food?q=${result.fdcId}`
     );
     const responseData = response.data;
     console.log(responseData);

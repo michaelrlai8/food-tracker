@@ -25,7 +25,7 @@ function App() {
     const getHistory = async () => {
       const response = await axios({
         method: 'get',
-        url: 'http://localhost:3500/history',
+        url: `${process.env.REACT_APP_API_URL}/history`,
       });
 
       const filteredData = response.data.filter(

@@ -89,13 +89,15 @@ const TrackerEntry = ({ entry, history, setHistory, selectedDate }) => {
 
     await axios({
       method: 'delete',
-      url: 'http://localhost:3500/delete',
+      url: `${process.env.REACT_APP_API_URL}/delete`,
       data: {
         id: entry.id,
       },
     });
 
-    const response = await axios.get('http://localhost:3500/history');
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/history`
+    );
     const filteredData = response.data.filter(
       (obj) => new Date(obj.date).toDateString() === selectedDate.toDateString()
     );

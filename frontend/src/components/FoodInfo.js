@@ -74,7 +74,7 @@ const FoodInfo = ({
       // POST request to insert new row in DB
       await axios({
         method: 'post',
-        url: 'http://localhost:3500/macros',
+        url: `${process.env.REACT_APP_API_URL}/macros`,
         data: {
           date: selectedDate.toLocaleString(),
           food: food,
@@ -86,7 +86,9 @@ const FoodInfo = ({
         },
       });
 
-      const response = await axios.get('http://localhost:3500/history');
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/history`
+      );
       const filteredData = response.data.filter(
         (obj) =>
           new Date(obj.date).toDateString() === selectedDate.toDateString()

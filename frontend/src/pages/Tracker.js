@@ -1,26 +1,14 @@
 import React from 'react';
 import TrackerEntry from '../components/TrackerEntry';
-import axios from 'axios';
 
 const Tracker = ({ history, setHistory, selectedDate }) => {
-  const macroStyle = 'w-1/6 pr-6 text-sm';
+  const macroStyle = 'w-1/6 pr-6 text-sm text-lg font-semibold';
 
   return (
     <div className='m-auto max-w-5xl px-5'>
-      {history &&
-        history.map((entry) => (
-          <TrackerEntry
-            entry={entry}
-            key={`${entry.id} ${entry.date} ${entry.food}`}
-            history={history}
-            setHistory={setHistory}
-            selectedDate={selectedDate}
-          />
-        ))}
-
       {history.length > 0 ? (
         <div className='mb-4 rounded-md bg-slate-800 p-4'>
-          <div className='text-2xl font-bold'>Total</div>
+          <div className='text-2xl font-bold'>Daily Total</div>
           <div className='mt-4 flex'>
             <div className={`w-/1 text-green-400 ${macroStyle}`}>
               {`Protein ${history
@@ -52,7 +40,7 @@ const Tracker = ({ history, setHistory, selectedDate }) => {
                 )
                 .toFixed(2)} g`}
             </div>
-            <div className={macroStyle}>
+            <div className='w-1/4 pr-6 text-lg text-sm font-semibold'>
               {`Energy ${history
                 .reduce(
                   (accumulator, object) =>
@@ -65,6 +53,17 @@ const Tracker = ({ history, setHistory, selectedDate }) => {
           </div>
         </div>
       ) : null}
+
+      {history &&
+        history.map((entry) => (
+          <TrackerEntry
+            entry={entry}
+            key={`${entry.id} ${entry.date} ${entry.food}`}
+            history={history}
+            setHistory={setHistory}
+            selectedDate={selectedDate}
+          />
+        ))}
     </div>
   );
 };
