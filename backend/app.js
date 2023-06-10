@@ -30,6 +30,15 @@ app.get('/food', async (req, res) => {
   res.json(response.data);
 });
 
+// Get food history
+app.get('/history', async (req, res) => {
+  const response = await db.query('SELECT * FROM macros');
+
+  const newArray = response.rows.sort((a, b) => a.date - b.date);
+  console.log(newArray);
+  res.json(newArray); // Array response of food entries alphabetized
+});
+
 // Insert food entry into DB
 app.post('/macros', async (req, res) => {
   await db.query(
@@ -45,27 +54,7 @@ app.post('/macros', async (req, res) => {
     ]
   );
 
-  res.status(201);
-});
-
-// Get food history
-app.get('/history', async (req, res) => {
-  const response = await db.query('SELECT * FROM macros');
-
-  const compareObjects = (a, b) => {
-    const nameA = a.food.toUpperCase();
-    const nameB = b.food.toUpperCase();
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  };
-  const sortedArray = response.rows.sort(compareObjects);
-  console.log(sortedArray);
-  res.json(sortedArray); // Array response of food entries alphabetized
+  res.send(201);
 });
 
 app.patch('/entry', async (req, res) => {
@@ -75,6 +64,11 @@ app.patch('/entry', async (req, res) => {
     req.body.id,
   ]);
   res.send('patchsucces');
+});
+
+app.delete('/delete', async (req, res) => {
+  await db.query('DELETE FROM macros WHERE id = $1', [req.body.id]);
+  res.send(200);
 });
 
 app.listen(port, () => {

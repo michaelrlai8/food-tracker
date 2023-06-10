@@ -23,13 +23,19 @@ function App() {
 
   useEffect(() => {
     const getHistory = async () => {
-      const response = await axios.get('http://localhost:3500/history');
-      console.log(response.data);
-      setHistory(response.data);
+      const response = await axios({
+        method: 'get',
+        url: 'http://localhost:3500/history',
+      });
+
+      const filteredData = response.data.filter(
+        (obj) =>
+          new Date(obj.date).toDateString() === selectedDate.toDateString()
+      );
+      setHistory(filteredData);
     };
     getHistory();
-    console.log('first get');
-  }, []);
+  }, [selectedDate]);
 
   return (
     <div className='App scrollbar-track-transparent h-screen overflow-y-scroll bg-slate-950'>
@@ -65,7 +71,13 @@ function App() {
         />
         <Route
           path='/tracker'
-          element={<Tracker history={history} setHistory={setHistory} />}
+          element={
+            <Tracker
+              history={history}
+              setHistory={setHistory}
+              selectedDate={selectedDate}
+            />
+          }
         />
       </Routes>
     </div>

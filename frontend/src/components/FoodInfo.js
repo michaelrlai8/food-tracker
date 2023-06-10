@@ -62,19 +62,11 @@ const FoodInfo = ({
         },
       ];
 
-      updatedItems.sort((a, b) => {
-        // Alphabetize new array
-        const foodA = a.food.toLowerCase();
-        const foobB = b.food.toLowerCase();
-        if (foodA < foobB) {
-          return -1;
-        }
-        if (foodA > foobB) {
-          return 1;
-        }
-        return 0;
-      });
-      setHistory(updatedItems); // Set state array to new array
+      const filteredData = updatedItems.filter(
+        (obj) =>
+          new Date(obj.date).toDateString() === selectedDate.toDateString()
+      );
+      setHistory(filteredData); // Set state array to new array
     };
     addObjectAndSort();
 
@@ -95,7 +87,11 @@ const FoodInfo = ({
       });
 
       const response = await axios.get('http://localhost:3500/history');
-      setHistory(response.data);
+      const filteredData = response.data.filter(
+        (obj) =>
+          new Date(obj.date).toDateString() === selectedDate.toDateString()
+      );
+      setHistory(filteredData);
     };
 
     postMacroData();
@@ -206,7 +202,7 @@ const FoodInfo = ({
           <Link to='/tracker'>
             <button
               onClick={handleSave}
-              className={`${lineStyle} w-full bg-cyan-400 text-black hover:bg-cyan-500`}
+              className={`mb-4 w-full rounded-md bg-cyan-400 p-4 text-black hover:bg-cyan-300`}
             >
               Add
             </button>
