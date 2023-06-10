@@ -92,7 +92,7 @@ const SearchBar = ({
       {results && (
         <ul
           ref={resultsRef}
-          className='absolute z-10 my-1 max-h-72 overflow-y-auto rounded-md bg-slate-800 py-1 text-base'
+          className='absolute z-10 my-1 mr-5 max-h-72 overflow-y-auto rounded-md bg-slate-800 py-1 text-base'
         >
           {results.map((result, index) => (
             <li

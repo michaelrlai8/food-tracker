@@ -26,7 +26,8 @@ const Tracker = ({ history, setHistory, selectedDate }) => {
               {`Protein ${history
                 .reduce(
                   (accumulator, object) =>
-                    accumulator + parseFloat(object.protein),
+                    accumulator +
+                    parseFloat(object.protein * (object.amount / 100)),
                   0
                 )
                 .toFixed(2)} g`}
@@ -35,7 +36,8 @@ const Tracker = ({ history, setHistory, selectedDate }) => {
               {`Carbs ${history
                 .reduce(
                   (accumulator, object) =>
-                    accumulator + parseFloat(object.carbs),
+                    accumulator +
+                    parseFloat(object.carbs * (object.amount / 100)),
                   0
                 )
                 .toFixed(2)} g`}
@@ -43,7 +45,9 @@ const Tracker = ({ history, setHistory, selectedDate }) => {
             <div className={`text-red-400 ${macroStyle}`}>
               {`Fat ${history
                 .reduce(
-                  (accumulator, object) => accumulator + parseFloat(object.fat),
+                  (accumulator, object) =>
+                    accumulator +
+                    parseFloat(object.fat * (object.amount / 100)),
                   0
                 )
                 .toFixed(2)} g`}
@@ -52,7 +56,8 @@ const Tracker = ({ history, setHistory, selectedDate }) => {
               {`Energy ${history
                 .reduce(
                   (accumulator, object) =>
-                    accumulator + parseFloat(object.kcal),
+                    accumulator +
+                    parseFloat(object.kcal * (object.amount / 100)),
                   0
                 )
                 .toFixed(2)} kcal`}

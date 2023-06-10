@@ -45,7 +45,7 @@ const DatePicker = ({ selectedDate, setSelectedDate }) => {
         <MdKeyboardArrowLeft className={buttonStyle} />
       </button>
       <div
-        className='w-48 cursor-pointer rounded-md py-1 text-center text-base hover:bg-slate-800'
+        className='w-40 cursor-pointer rounded-md py-1 text-center text-base hover:bg-slate-800'
         onClick={handleCurrentDate}
       >
         {selectedDate.toDateString()}
